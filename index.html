@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html land="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+
+    <body>
+        <script>
+            function getComputerChoice() {
+                const NUM = Math.floor(Math.random() * 10) % 3;
+                if (NUM === 0) {
+                    return "Rock";
+                }
+                else if (NUM === 1) {
+                    return "Paper";
+                }
+                else {
+                    return "Scissors";
+                }
+            }
+
+            function playRound(playerSelection, computerSelection) {
+                if (playerSelection === computerSelection) {
+                    return "It's a tie!";
+                }
+                else if (playerSelection === "Rock" && computerSelection === "Paper") {
+                    return "Computer Wins!";
+                }
+                else if (playerSelection === "Rock" && computerSelection === "Scissors") {
+                    return "Player Wins!";
+                } 
+                else if (playerSelection === "Paper" && computerSelection === "Rock") {
+                    return "Player Wins!";
+                }
+                else if (playerSelection === "Paper" && computerSelection === "Scissors") {
+                    return "Computer Wins!";
+                }
+                else if (playerSelection === "Scissors" && computerSelection === "Rock") {
+                    return "Computer Wins!";
+                }
+                else if (playerSelection === "Scissors" && computerSelection === "Paper") {
+                    return "Player Wins!";
+                }
+            }
+
+            function game() {
+                let playerWins = 0;
+                let computerWins = 0;
+                let roundsPlayable = 5;
+                while (roundsPlayable > 0) {
+                    let playerSelection = prompt("Rock, Paper, or Scissors?");
+                    playerSelection = playerSelection[0].toUpperCase() + playerSelection.slice(1);
+                    const computerSelection = getComputerChoice();
+                    const findWinner = playRound(playerSelection, computerSelection);
+                    if (findWinner === "Player Wins!") {
+                        console.log("You Win! " + playerSelection + " beats " + computerSelection);
+                        playerWins++;
+                        roundsPlayable--;
+                    }
+                    else if (findWinner === "Computer Wins!") {
+                        console.log("You Lose! " + computerSelection + " beats " + playerSelection);
+                        computerWins++;
+                        roundsPlayable--;
+                    }
+                    else {
+                        console.log(playerSelection + " vs " + computerSelection + "." + " It's a tie!");
+                    }
+                    if (playerWins === 3) {
+                        console.log("Player wins with 3 points!");
+                        break;
+                    }
+                    else if (computerWins === 3) {
+                        console.log("Computer wins with 3 points!");
+                        break;
+                    }
+                }
+            }
+
+            game(); // Play game
+        </script>
+    </body>
+</html>
