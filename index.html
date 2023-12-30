@@ -2,10 +2,41 @@
 <html land="en">
     <head>
         <meta charset="utf-8">
+        <link rel="stylesheet" href="styles.css">
     </head>
 
     <body>
+        <h1>Rock, Paper, Scissors!</h1>
+        <h2>(First to 5)</h2>
+        <div class="standings">
+            <div class="parameters">
+                <p id="guess">Last Guess:</p>
+                <p>Current Score:</p>
+            </div>
+            <div class="content">
+                <div class="human">
+                    <h2>You</h2>
+                    <img id="p1" src="images/q.png" alt="?">
+                    <h6>0</h6>
+                </div>
+                <div class="computer">
+                    <h2>Computer</h2>
+                    <img id ="p2" src="images/q.png" alt="?">
+                    <h6 >0</h6>
+                </div>  
+            </div>
+        </div>
+        <div class="buttons">
+            <button class="choice-btn" choice="Rock"><img src="images/rock.png" alt="rock"></button>
+            <button class="choice-btn" choice="Paper"><img src="images/paper.png" alt="paper"></button>
+            <button class="choice-btn" choice="Scissors"><img src="images/scissors.png" alt="scissors"></button>
+        </div>
+        <p id="winner"></p>
+        <button id="restart">Restart Game</button>
         <script>
+            let playerWins = 0;
+            let computerWins = 0;
+            let roundsPlayable = 5;
             function getComputerChoice() {
                 const NUM = Math.floor(Math.random() * 10) % 3;
                 if (NUM === 0) {
@@ -43,40 +74,94 @@
                 }
             }
 
-            function game() {
-                let playerWins = 0;
-                let computerWins = 0;
-                let roundsPlayable = 5;
-                while (roundsPlayable > 0) {
-                    let playerSelection = prompt("Rock, Paper, or Scissors?");
-                    playerSelection = playerSelection[0].toUpperCase() + playerSelection.slice(1);
-                    const computerSelection = getComputerChoice();
-                    const findWinner = playRound(playerSelection, computerSelection);
-                    if (findWinner === "Player Wins!") {
-                        console.log("You Win! " + playerSelection + " beats " + computerSelection);
-                        playerWins++;
-                        roundsPlayable--;
-                    }
-                    else if (findWinner === "Computer Wins!") {
-                        console.log("You Lose! " + computerSelection + " beats " + playerSelection);
-                        computerWins++;
-                        roundsPlayable--;
-                    }
-                    else {
-                        console.log(playerSelection + " vs " + computerSelection + "." + " It's a tie!");
-                    }
-                    if (playerWins === 3) {
-                        console.log("Player wins with 3 points!");
-                        break;
-                    }
-                    else if (computerWins === 3) {
-                        console.log("Computer wins with 3 points!");
-                        break;
-                    }
+            function changeImage(choice, user) {
+                let Image = '';
+                if (choice === "Rock") {
+                    Image = "images/rock.png";
+                }
+                else if (choice === "Paper") {
+                    Image = "images/paper.png";
+                }
+                else if (choice === "Scissors") {
+                    Image = "images/scissors.png";
+                }
+
+                if (user === "player") {
+                    document.getElementById("p1").src = Image;
+                }
+                else if (user === "computer") {
+                    document.getElementById("p2").src = Image;
                 }
             }
 
-            game(); // Play game
+            function resetGame() {
+                changeButtonStatus(false);
+                document.getElementById("restart").style.display = "";
+                const restart_btn = document.querySelector("#restart");
+                restart_btn.addEventListener("click", function() {
+                    document.querySelector(".human h6").innerText = "0";
+                    document.querySelector(".computer h6").innerText = "0";
+                    playerWins = 0;
+                    computerWins = 0;
+                    roundsPlayable = 11;
+                    changeButtonStatus(true);
+                    document.querySelector("#winner").innerText = "";
+                    document.getElementById("restart").style.display = "none";
+
+                })
+            }
+                
+            function changeButtonStatus(boolean) {
+                const buttons = document.querySelectorAll(".choice-btn");
+                buttons.forEach(button => {
+                    button.disabled = !boolean;
+                })
+            }
+
+            function game() {
+                let findWinner = '';
+                document.addEventListener("DOMContentLoaded", function() {
+                    document.getElementById("restart").style.display = "none";
+                    const buttons = document.querySelectorAll(".choice-btn");
+                    buttons.forEach(button => {
+                        button.addEventListener("click", function() {
+                            let playerSelection = this.getAttribute("choice");
+                            const computerSelection = getComputerChoice();
+                            changeImage(playerSelection, "player");
+                            changeImage(computerSelection, "computer");
+                            findWinner = playRound(playerSelection, computerSelection);
+                            if (findWinner === "Player Wins!") {
+                                console.log("You Win! " + playerSelection + " beats " + computerSelection);
+                                playerWins++;
+                                document.querySelector(".human h6").innerText = playerWins;
+                                roundsPlayable--;
+                            }
+                            else if (findWinner === "Computer Wins!") {
+                                console.log("You Lose! " + computerSelection + " beats " + playerSelection);
+                                computerWins++;
+                                document.querySelector(".computer h6").innerText = computerWins;
+                                roundsPlayable--;
+                            }
+                            else {
+                                console.log(playerSelection + " vs " + computerSelection + "." + " It's a tie!");
+                            }
+                            if (playerWins === 5) {
+                                console.log("Player wins with 5 points!");
+                                document.querySelector("#winner").innerText = "Player Wins!";
+                                resetGame();
+                            }
+                            else if (computerWins === 5) {
+                                console.log("Computer wins with 5 points!");
+                                document.querySelector("#winner").innerText = "Computer Wins!";
+                                resetGame();
+                            }
+                        })
+                    })
+                })
+            }
+
+            game();
+
         </script>
     </body>
 </html>

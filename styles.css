@@ -1,0 +1,77 @@
+h1, h2, h6 {
+    text-align: center;
+}
+
+h1 {
+    font-size: 4em;
+}
+
+h2 {
+    font-size: 2.5em;
+}
+
+h6 {
+    font-size: 2em;
+}
+
+.buttons img {
+    height: 20em;
+    width: 20em;
+}
+
+.buttons button {
+    margin: 0 -20em;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.standings {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.content {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.content img {
+    height: 5em;
+    width: 5em;
+}
+
+.standings .human, .standings .computer {
+    margin: 0 10em;
+    text-align: center;
+}
+
+.parameters {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    font-size: 1.5em;
+    height: 15em;
+}
+
+.parameters #guess {
+    margin-top: 3em;
+}
+
+body {
+    text-align: center;
+}
+
+#restart {
+    margin: 1em;
+    font-size: 2em;
+    border: 1px solid white;
+}
+
+#winner {
+    font-size: 2em;
+}
